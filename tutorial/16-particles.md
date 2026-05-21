@@ -833,9 +833,8 @@ Desaparecimento
 
 ---
 
-# O que o aluno aprende de verdade
-
-O aluno entende que efeitos visuais são construídos com:
+# O que voce aprende de verdade
+voce entende que efeitos visuais são construídos com:
 
 ```text
 muitos objetos pequenos
