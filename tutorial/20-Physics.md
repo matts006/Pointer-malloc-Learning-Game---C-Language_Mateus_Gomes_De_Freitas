@@ -727,9 +727,9 @@ COLISÃO CHÃO
 
 ---
 
-# O que o aluno aprende de verdade
+# O que você aprende de verdade
 
-O aluno entende:
+você entende:
 
 ```text
 física em jogos é matemática acontecendo frame a frame
