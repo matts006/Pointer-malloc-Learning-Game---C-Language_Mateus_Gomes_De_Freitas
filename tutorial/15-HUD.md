@@ -66,86 +66,236 @@ Exemplos famosos:
 ---
 
 # Código Completo
+
+```c
+// =========================================
+// IMPORTA RAYLIB
+// =========================================
+
 #include "raylib.h"
+
+// =========================================
+// MAIN
+// =========================================
 
 int main(void)
 {
+    // Cria janela
     InitWindow(1000, 600, "HUD em Raylib");
 
+    // Define FPS
     SetTargetFPS(60);
 
+    // =========================================
+    // JOGADOR
+    // =========================================
+
+    // Posição inicial
     Vector2 jogador = { 480, 300 };
+
+    // Velocidade
     float velocidade = 4.0f;
 
+    // =========================================
+    // HUD
+    // =========================================
+
+    // Pontuação
     int score = 0;
+
+    // Vida atual
     int vida = 100;
+
+    // Munição
     int municao = 30;
+
+    // Tempo de jogo
     float tempo = 0;
+
+    // =========================================
+    // LOOP PRINCIPAL
+    // =========================================
 
     while (!WindowShouldClose())
     {
+        // =========================================
+        // UPDATE
+        // =========================================
+
+        // Atualiza tempo
         tempo += GetFrameTime();
 
-        if (IsKeyDown(KEY_RIGHT)) jogador.x += velocidade;
-        if (IsKeyDown(KEY_LEFT))  jogador.x -= velocidade;
-        if (IsKeyDown(KEY_UP))    jogador.y -= velocidade;
-        if (IsKeyDown(KEY_DOWN))  jogador.y += velocidade;
+        // Movimento direita
+        if (IsKeyDown(KEY_RIGHT))
+            jogador.x += velocidade;
 
+        // Movimento esquerda
+        if (IsKeyDown(KEY_LEFT))
+            jogador.x -= velocidade;
+
+        // Movimento cima
+        if (IsKeyDown(KEY_UP))
+            jogador.y -= velocidade;
+
+        // Movimento baixo
+        if (IsKeyDown(KEY_DOWN))
+            jogador.y += velocidade;
+
+        // Simula ganhar pontos
         if (IsKeyPressed(KEY_P))
         {
             score += 10;
         }
 
+        // Simula tomar dano
         if (IsKeyPressed(KEY_H))
         {
             vida -= 10;
-            if (vida < 0) vida = 0;
+
+            if (vida < 0)
+                vida = 0;
         }
 
+        // Simula gastar munição
         if (IsKeyPressed(KEY_SPACE))
         {
             municao--;
-            if (municao < 0) municao = 0;
+
+            if (municao < 0)
+                municao = 0;
         }
+
+        // =========================================
+        // DRAW
+        // =========================================
 
         BeginDrawing();
 
+        // Fundo
         ClearBackground(RAYWHITE);
 
-        // Mundo do jogo
-        DrawRectangleV(jogador, (Vector2){ 40, 40 }, BLUE);
+        // =========================================
+        // MUNDO DO JOGO
+        // =========================================
+
+        // Desenha jogador
+        DrawRectangleV(
+            jogador,
+            (Vector2){40, 40},
+            BLUE
+        );
+
+        // =========================================
+        // HUD
+        // =========================================
 
         // Fundo da HUD
-        DrawRectangle(0, 0, 1000, 115, LIGHTGRAY);
-        DrawLine(0, 115, 1000, 115, DARKGRAY);
+        DrawRectangle(
+            0,
+            0,
+            1000,
+            115,
+            LIGHTGRAY
+        );
+
+        // Linha separadora
+        DrawLine(
+            0,
+            115,
+            1000,
+            115,
+            DARKGRAY
+        );
 
         // Título
-        DrawText("HUD DO JOGO", 20, 15, 28, DARKBLUE);
+        DrawText(
+            "HUD DO JOGO",
+            20,
+            15,
+            28,
+            DARKBLUE
+        );
 
         // Score
-        DrawText(TextFormat("Score: %d", score), 20, 65, 20, BLACK);
+        DrawText(
+            TextFormat("Score: %d", score),
+            20,
+            65,
+            20,
+            BLACK
+        );
 
         // Vida
-        DrawText(TextFormat("Vida: %d", vida), 220, 65, 20, BLACK);
+        DrawText(
+            TextFormat("Vida: %d", vida),
+            220,
+            65,
+            20,
+            BLACK
+        );
 
-        // Barra de vida
-        DrawRectangle(220, 40, 200, 20, RED);
-        DrawRectangle(220, 40, vida * 2, 20, GREEN);
-        DrawRectangleLines(220, 40, 200, 20, BLACK);
+        // =========================================
+        // BARRA DE VIDA
+        // =========================================
+
+        // Fundo vermelho da barra
+        DrawRectangle(
+            220,
+            40,
+            200,
+            20,
+            RED
+        );
+
+        // Vida verde
+        DrawRectangle(
+            220,
+            40,
+            vida * 2,
+            20,
+            GREEN
+        );
+
+        // Borda da barra
+        DrawRectangleLines(
+            220,
+            40,
+            200,
+            20,
+            BLACK
+        );
 
         // Munição
-        DrawText(TextFormat("Municao: %d", municao), 470, 65, 20, BLACK);
+        DrawText(
+            TextFormat("Municao: %d", municao),
+            470,
+            65,
+            20,
+            BLACK
+        );
 
         // Tempo
-        DrawText(TextFormat("Tempo: %.1f", tempo), 700, 65, 20, BLACK);
+        DrawText(
+            TextFormat("Tempo: %.1f", tempo),
+            700,
+            65,
+            20,
+            BLACK
+        );
 
-        // Instruções
-        DrawText("P = Pontos | H = Dano | ESPACO = Gasta Municao",
-                 20, 560, 18, MAROON);
+        // Texto explicativo
+        DrawText(
+            "P = Pontos | H = Dano | ESPACO = Gasta Municao",
+            20,
+            560,
+            18,
+            MAROON
+        );
 
         EndDrawing();
     }
 
+    // Fecha janela
     CloseWindow();
 
     return 0;
@@ -165,6 +315,7 @@ informações desenhadas sobre o jogo
 ```
 
 A HUD normalmente:
+
 - não faz parte do mundo
 - fica fixa na tela
 - acompanha jogador
@@ -174,15 +325,16 @@ A HUD normalmente:
 # Exemplo visual
 
 ```text
-┌─────────────────────────────┐
-│ SCORE  VIDA  MUNIÇÃO TEMPO │ ← HUD
-├─────────────────────────────┤
-│                             │
-│                             │
-│         MUNDO DO JOGO       │
-│                             │
-│                             │
-└─────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│ HUD DO JOGO                                  │
+│ Score: 0  Vida: 100  Munição: 30  Tempo: 0  │
+├──────────────────────────────────────────────┤
+│                                              │
+│                                              │
+│              MUNDO DO JOGO                   │
+│                                              │
+│                                              │
+└──────────────────────────────────────────────┘
 ```
 
 ---
@@ -248,6 +400,8 @@ O tempo cresce suavemente:
 0.4
 ```
 
+Isso significa que estamos usando tempo real, e não apenas contagem de frames.
+
 ---
 
 # 4. Sistema de Score
@@ -265,6 +419,18 @@ Cada vez que o jogador aperta `P`:
 ganha 10 pontos
 ```
 
+Esse valor aparece na HUD usando:
+
+```c
+DrawText(
+    TextFormat("Score: %d", score),
+    20,
+    65,
+    20,
+    BLACK
+);
+```
+
 ---
 
 # 5. Sistema de Vida
@@ -273,13 +439,16 @@ ganha 10 pontos
 if (IsKeyPressed(KEY_H))
 {
     vida -= 10;
+
+    if (vida < 0)
+        vida = 0;
 }
 ```
 
 Cada vez que o jogador aperta `H`:
 
 ```text
-perde vida
+perde 10 pontos de vida
 ```
 
 ---
@@ -297,6 +466,16 @@ Evita:
 vida negativa
 ```
 
+Sem isso, a HUD poderia mostrar:
+
+```text
+Vida: -10
+Vida: -20
+Vida: -30
+```
+
+O que não faz sentido para o jogador.
+
 ---
 
 # 6. Sistema de Munição
@@ -305,11 +484,17 @@ vida negativa
 if (IsKeyPressed(KEY_SPACE))
 {
     municao--;
+
+    if (municao < 0)
+        municao = 0;
 }
 ```
 
 Simula:
+
 - uso de munição
+- disparo
+- gasto de recurso
 
 ---
 
@@ -318,6 +503,14 @@ Simula:
 ```c
 if (municao < 0)
     municao = 0;
+```
+
+Evita:
+
+```text
+Municao: -1
+Municao: -2
+Municao: -3
 ```
 
 ---
@@ -329,26 +522,57 @@ DrawRectangle(
     0,
     0,
     1000,
-    90,
+    115,
     LIGHTGRAY
 );
 ```
 
 Cria:
-- painel superior
+
+```text
+um painel superior cinza
+```
+
+Esse painel funciona como a área visual da HUD.
+
+---
+
+# Por que aumentamos de 90 para 115?
+
+Na versão anterior, a barra de vida ficava muito próxima dos textos.
+
+Agora usamos:
+
+```c
+altura = 115
+```
+
+para dar mais espaço visual.
+
+Isso melhora:
+
+- legibilidade
+- organização
+- separação entre HUD e mundo do jogo
 
 ---
 
 # 8. Linha separadora
 
 ```c
-DrawLine()
+DrawLine(
+    0,
+    115,
+    1000,
+    115,
+    DARKGRAY
+);
 ```
 
-Desenha:
-- linha divisória
+Desenha uma linha horizontal.
 
-Separando:
+Ela separa:
+
 - HUD
 - mundo do jogo
 
@@ -361,14 +585,29 @@ TextFormat("Score: %d", score)
 ```
 
 Permite inserir:
-- variáveis dentro do texto
+
+```text
+variáveis dentro de textos
+```
 
 ---
 
 # O que significa %d
 
 ```text
-%d = inteiro
+%d = número inteiro
+```
+
+Usamos `%d` para:
+
+- score
+- vida
+- munição
+
+Exemplo:
+
+```c
+TextFormat("Vida: %d", vida)
 ```
 
 ---
@@ -376,32 +615,82 @@ Permite inserir:
 # O que significa %.1f
 
 ```text
-%.1f = float com 1 casa decimal
+%.1f = número decimal com 1 casa
 ```
+
+Usamos em:
+
+```c
+TextFormat("Tempo: %.1f", tempo)
+```
+
+Isso mostra:
+
+```text
+Tempo: 3.1
+Tempo: 3.2
+Tempo: 3.3
+```
+
+em vez de mostrar muitas casas decimais.
 
 ---
 
 # 10. Barra de vida
 
-Primeiro desenhamos:
+Primeiro desenhamos o fundo vermelho:
 
 ```c
-DrawRectangle(... RED)
+DrawRectangle(
+    220,
+    40,
+    200,
+    20,
+    RED
+);
 ```
 
-que é:
-- fundo da barra
+Esse fundo representa:
+
+```text
+vida total possível
+```
 
 ---
 
-Depois:
+Depois desenhamos a vida atual em verde:
 
 ```c
-DrawRectangle(... GREEN)
+DrawRectangle(
+    220,
+    40,
+    vida * 2,
+    20,
+    GREEN
+);
 ```
 
-que representa:
-- vida restante
+Esse retângulo verde representa:
+
+```text
+vida restante
+```
+
+---
+
+Depois desenhamos a borda:
+
+```c
+DrawRectangleLines(
+    220,
+    40,
+    200,
+    20,
+    BLACK
+);
+```
+
+A borda ajuda o jogador a enxergar melhor o limite da barra.
 
 ---
 
@@ -425,18 +714,54 @@ em:
 200 pixels
 ```
 
+Porque:
+
+```text
+100 * 2 = 200
+```
+
+---
+
+# Quando perde vida
+
+Se a vida cair para 80:
+
+```text
+80 * 2 = 160 pixels
+```
+
+Se cair para 50:
+
+```text
+50 * 2 = 100 pixels
+```
+
+Se cair para 25:
+
+```text
+25 * 2 = 50 pixels
+```
+
 ---
 
 # Visualização da barra
+
+Vida cheia:
 
 ```text
 ████████████████████
 ```
 
-Quando perde vida:
+Vida pela metade:
 
 ```text
 ██████████
+```
+
+Vida baixa:
+
+```text
+████
 ```
 
 ---
@@ -444,11 +769,44 @@ Quando perde vida:
 # 11. HUD fixa
 
 A HUD:
+
 - NÃO se move
-- NÃO depende da câmera
-- fica fixa
+- NÃO depende da posição do jogador
+- NÃO depende do mundo
+- fica sempre no mesmo lugar da tela
 
 Isso é MUITO importante em jogos.
+
+Mesmo que o personagem se mova, a HUD continua fixa.
+
+---
+
+# 12. Mundo do jogo
+
+```c
+DrawRectangleV(
+    jogador,
+    (Vector2){40, 40},
+    BLUE
+);
+```
+
+Desenha o jogador como um quadrado azul.
+
+Essa parte representa:
+
+```text
+o mundo do jogo
+```
+
+---
+
+# Diferença entre HUD e mundo
+
+| Parte | Função |
+|---|---|
+| Mundo | onde o jogo acontece |
+| HUD | mostra informações do jogo |
 
 ---
 
@@ -457,13 +815,15 @@ Isso é MUITO importante em jogos.
 ```text
 INPUT
    ↓
-Atualiza score/vida
+Atualiza score/vida/munição/tempo
    ↓
-Atualiza HUD
+Move jogador
    ↓
 Renderiza mundo
    ↓
-Renderiza interface
+Renderiza HUD
+   ↓
+Mostra tudo na tela
 ```
 
 ---
@@ -476,10 +836,12 @@ Renderiza interface
 | Barra de Vida | ✔ |
 | Score | ✔ |
 | Tempo | ✔ |
+| Munição | ✔ |
 | Interface | ✔ |
 | TextFormat | ✔ |
 | UI Básica | ✔ |
 | Overlay | ✔ |
+| Feedback Visual | ✔ |
 
 ---
 
@@ -488,29 +850,35 @@ Renderiza interface
 O aluno começa a entender:
 
 ```text
-jogo ≠ apenas mundo gráfico
+jogo não é apenas personagem andando
 ```
 
 Jogos também possuem:
+
 - interface
 - feedback visual
 - informações em tempo real
+- estado do jogador
+- comunicação visual com usuário
 
 ---
 
 # Curiosidade MUITO importante
 
-Mesmo jogos AAA usam:
+Mesmo jogos grandes usam:
+
 - HUDs
 - overlays
 - barras
 - indicadores
 - feedback visual
 
-A HUD é uma das partes mais importantes:
+A HUD é uma das partes mais importantes para:
+
 - UX
 - gameplay
 - experiência do jogador
+- tomada de decisão durante a partida
 
 ---
 
@@ -520,10 +888,11 @@ Você verá:
 
 ✅ jogador azul  
 ✅ score  
-✅ barra de vida  
+✅ barra de vida com borda  
 ✅ munição  
 ✅ tempo de jogo  
 ✅ HUD fixa no topo  
+✅ instruções na parte inferior  
 
 ---
 
@@ -542,6 +911,7 @@ Adicione:
 ## Exercício 2
 
 Crie:
+
 - minimapa simples
 
 ---
@@ -549,6 +919,7 @@ Crie:
 ## Exercício 3
 
 Faça:
+
 - barra de mana
 
 ---
@@ -588,6 +959,7 @@ Na próxima aula podemos evoluir para:
 ```
 
 onde iremos aprender:
+
 - partículas
 - explosões
 - efeitos visuais
